@@ -5,8 +5,10 @@ const e = require('express');
 const app = express()
 const port = 300;
 
+app.use(express.urlencoded({ extended: true }));
 app.use(express.json())
 app.use('/api/v1',mainRouter.router);
+
 
 async function connectToMongoDB() {
     try{
@@ -17,6 +19,7 @@ async function connectToMongoDB() {
         process.exit(1);
     }
 }
+
 connectToMongoDB();
 
 app.listen(port,()=>{

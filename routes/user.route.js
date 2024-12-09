@@ -1,6 +1,6 @@
 const Router = require("express");
 const userController = require('../controller/user.controller.js');
-const user = require("../models/user.model.js");
+const User = require("../models/user.model.js");
 
 
 class UserRouter{
@@ -8,11 +8,13 @@ class UserRouter{
 
     constructor(){
         this.router = new Router();
-        this.router.post("/saveUser",this.saveUser);
         this.router.get("/getAllUsers",this.getAllUsers);
         this.router.get('/getUserByEmail',this.getUserByEmail)
         this.router.delete('/deleteUser',this.deleteUser)
+        this.router.post("/saveUser", this.saveUser);
+
     }
+    
 
     async getUserByEmail(req,resp){
         const email = req.query.email;
@@ -26,14 +28,13 @@ class UserRouter{
     }
 
     async saveUser(req,resp){
-        let user = req.body;
-        
-        try{
+        try {
+            const user = req.body;
             await userController.saveUser(user);
-            resp.status(201).send(user);
-        }catch(err){
-            console.log(err);
-            resp.status(500).send("Cant save Studdent!");
+            resp.status(201).send({ message: 'User saved successfully!', user: user });
+        } catch (err) {
+            console.error(err);
+            resp.status(500).send('Error saving user.');
         }
         
     }
