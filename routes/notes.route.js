@@ -33,8 +33,13 @@ class NoteRouter{
         
     }
     async getNotesByEmail(req,resp){
-        console.log("getNotesByEmail");
-        resp.status(201).send()
+        let email =req.query.email
+        try{
+            resp.status(201).send(await noteController.getAllNotesByUserEmail(email))  
+        }catch(err){
+            resp.status(201).send(err)
+        }
+        
     }
     async deleteNoteByNoteId(req,resp){
         console.log("deleteNoteByNoteId");

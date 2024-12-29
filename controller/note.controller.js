@@ -12,6 +12,13 @@ class NoteController{
     async getAllNotes(){
         return await noteService.getAllNotes();
     }
+    async getAllNotesByUserEmail(email){
+        let notes = await noteService.getAllNotes();
+        let filterdNotes = notes.filter(function (note){
+            return note.userEmail == email;
+        })
+        return filterdNotes;
+    }
 }
 
 const noteController = new NoteController();
