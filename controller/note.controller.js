@@ -6,8 +6,8 @@ class NoteController{
         let savedUser = await noteService.saveNote(note)
         return savedUser
     }
-    async deleteNoteByNoteId(){
-        
+    async deleteNoteByNoteId(id){
+        await noteService.deleteNoteByNoteId(id)
     }
     async getAllNotes(){
         return await noteService.getAllNotes();
@@ -18,6 +18,9 @@ class NoteController{
             return note.userEmail == email;
         })
         return filterdNotes;
+    }
+    async deleteNoteByUserEmail(email){
+        await noteService.deleteNoteByUserEmail(email);
     }
 }
 

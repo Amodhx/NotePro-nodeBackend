@@ -20,7 +20,7 @@ class NoteRouter{
             let savedUser = await noteController.saveNote(note)
             resp.status(201).send(savedUser)
         }catch(err){
-            resp.status(201).send(err)
+            resp.status(500).send(err)
         }
         
     }
@@ -28,7 +28,7 @@ class NoteRouter{
         try{
             resp.status(201).send(await noteController.getAllNotes())
         }catch(err){
-            resp.status(201).send(err)
+            resp.status(500).send(err)
         }
         
     }
@@ -37,17 +37,27 @@ class NoteRouter{
         try{
             resp.status(201).send(await noteController.getAllNotesByUserEmail(email))  
         }catch(err){
-            resp.status(201).send(err)
+            resp.status(500).send(err)
         }
         
     }
     async deleteNoteByNoteId(req,resp){
-        console.log("deleteNoteByNoteId");
-        resp.status(201).send()
+        let id =req.query.id
+        try{
+            await noteController.deleteNoteByNoteId(id)
+            resp.status(201).send()
+        }catch(err){
+            resp.status(500).send(err)
+        }
     }
     async deleteNoteByUserId(req,resp){
-        console.log("deleteNoteByUserId");
-        resp.status(201).send()
+        try{
+            let email =req.query.email
+            await noteController.deleteNoteByUserEmail(email)
+            resp.status(201).send()
+        }catch(err){
+            resp.status(500).send(err)
+        }
     }
 }
 

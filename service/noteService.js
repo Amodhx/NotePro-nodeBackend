@@ -13,6 +13,12 @@ class NoteService{
         let notes = Note.find()
         return notes;
     }
+    async deleteNoteByNoteId(id){
+        await Note.deleteOne({note_id : id})
+    }
+    async deleteNoteByUserEmail(email){
+        await Note.deleteMany({userEmail : email})
+    }
 }
 
 const noteService = new NoteService()
