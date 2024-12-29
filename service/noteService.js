@@ -5,7 +5,7 @@ class NoteService{
 
     async saveNote(note){
         let toSave = new Note(note)
-        toSave.user_id = await genarateId.GenarateUserId();
+        toSave.note_id = await genarateId.GenarateUserId();
         let savedUser = await toSave.save()
         return savedUser
     }
