@@ -1,5 +1,6 @@
 const Router = require('express')
 const Note = require('../models/note.model.js')
+const noteController = require('../controller/note.controller.js')
 
 class NoteRouter{
     router;
@@ -15,13 +16,11 @@ class NoteRouter{
 
     async saveNote(req,resp){
         try{
-            console.log(req.body);
             const note  = req.body;
-            console.log(note);
-            
-            resp.status(201).send()
+            let savedUser = await noteController.saveNote(note)
+            resp.status(201).send(savedUser)
         }catch(err){
-            resp.status(201).send()
+            resp.status(201).send(err)
         }
         
     }
