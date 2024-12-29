@@ -9,6 +9,9 @@ class NoteController{
     async deleteNoteByNoteId(){
         
     }
+    async getAllNotes(){
+        return await noteService.getAllNotes();
+    }
 }
 
 const noteController = new NoteController();

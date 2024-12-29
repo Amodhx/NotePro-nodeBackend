@@ -25,8 +25,12 @@ class NoteRouter{
         
     }
     async getAllNotes(req,resp) {
-        console.log("GetAllNotes");
-        resp.status(201).send()
+        try{
+            resp.status(201).send(await noteController.getAllNotes())
+        }catch(err){
+            resp.status(201).send(err)
+        }
+        
     }
     async getNotesByEmail(req,resp){
         console.log("getNotesByEmail");

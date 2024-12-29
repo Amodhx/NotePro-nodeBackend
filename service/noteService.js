@@ -9,6 +9,10 @@ class NoteService{
         let savedUser = await toSave.save()
         return savedUser
     }
+    async getAllNotes(){
+        let notes = Note.find()
+        return notes;
+    }
 }
 
 const noteService = new NoteService()
