@@ -1,4 +1,3 @@
-const mongoose = require('mongoose');
 const user = require('../models/user.model.js');
 const userService = require('../service/userService.js');
 

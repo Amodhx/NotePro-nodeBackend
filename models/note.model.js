@@ -7,7 +7,7 @@ const noteSchema = new mongoose.Schema(
         noteDesc:String,
         createDate:String,
         priorityLevel:String,
-        user_id:String
+        userEmail:String
     }
 )
 

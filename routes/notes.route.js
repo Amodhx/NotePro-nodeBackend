@@ -14,8 +14,15 @@ class NoteRouter{
     }
 
     async saveNote(req,resp){
-        console.log("Save Note");
-        resp.status(201).send()
+        try{
+            console.log(req.body);
+            const note  = req.body;
+            console.log(note);
+            
+            resp.status(201).send()
+        }catch(err){
+            resp.status(201).send()
+        }
         
     }
     async getAllNotes(req,resp) {
