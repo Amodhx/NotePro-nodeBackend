@@ -5,9 +5,16 @@ const jwt = require('jsonwebtoken');
 const mongoose  = require('mongoose');
 const app = express()
 const port = 300;
+const cors = require('cors')
 
 dotenv.config();
+const corsOptions = {
+    origin: '*',
+    methods: 'GET,POST,PUT,DELETE,OPTIONS', 
+    allowedHeaders: ['Content-Type', 'Authorization'], 
+  };
 
+app.use(cors())
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json())
 app.use('/api/v1',mainRouter.router);
