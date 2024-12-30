@@ -13,7 +13,9 @@
     "automapper": "^1.0.0",
     "automapper-ts": "^1.9.0",
     "body-parser": "^1.20.3",
-    "express": "^4.21.1",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.7.2",
     "multer": "^1.4.5-lts.1"
   },
