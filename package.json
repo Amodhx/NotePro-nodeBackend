@@ -12,6 +12,7 @@
   "dependencies": {
     "automapper": "^1.0.0",
     "automapper-ts": "^1.9.0",
+    "bcrypt": "^5.1.1",
     "body-parser": "^1.20.3",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",

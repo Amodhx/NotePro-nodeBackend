@@ -1,10 +1,18 @@
-const user = require('../models/user.model.js');
 const userService = require('../service/userService.js');
+const jwtService = require('../service/jwtService.js')
 
 class UserController{
     
     async saveUser(user){
         return userService.saveUser(user);
+    }
+    async signIn(user){
+        try{
+            return jwtService.signIn(user)
+        }catch(err){
+            throw err;
+        }
+        
     }
 
     async getAllUsers(){

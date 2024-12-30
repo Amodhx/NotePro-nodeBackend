@@ -1,9 +1,12 @@
 const express = require('express');
 const mainRouter = require('./routes/router');
+const dotenv = require('dotenv');
+const jwt = require('jsonwebtoken');
 const mongoose  = require('mongoose');
-const e = require('express');
 const app = express()
 const port = 300;
+
+dotenv.config();
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json())
