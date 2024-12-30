@@ -1,13 +1,14 @@
 const Router = require('express')
 const Note = require('../models/note.model.js')
 const noteController = require('../controller/note.controller.js')
+const auth = require('../middleware/auth.js')
 
 class NoteRouter{
     router;
 
     constructor(){
         this.router = new Router();
-        this.router.get("/getAllNotes",this.getAllNotes)
+        this.router.get("/getAllNotes",auth.protect,this.getAllNotes)
         this.router.get("/getNotesByEmail",this.getNotesByEmail)
         this.router.delete("/deleteNoteByNoteId",this.deleteNoteByNoteId)
         this.router.delete("/deleteNoteByUserId",this.deleteNoteByUserId)
