@@ -23,9 +23,7 @@ class UserService{
     }
     async getAllUsers(){ 
         const users = await User.find({});
-        if (!users) {
-            throw new dataNotFoundException('Cant Find Users', 400);
-        }else if(users.length === 0){
+        if(users.length === 0){
             throw new dataNotFoundException('Users Not Found', 404);
         }else{
             return users;
