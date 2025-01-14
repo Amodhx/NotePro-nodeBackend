@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 const User = require('../models/user.model.js');
 const bcrypt = require('bcrypt');
-const dataNotFoundException = require('../exceptions/DataNotFoundException.js');
+const DataNotFoundException = require('../exceptions/DataNotFoundException.js');
 
 
 class JwtService{
@@ -9,10 +9,8 @@ class JwtService{
         let jwtSecretKey = process.env.JWT_SECRET_KEY;
         let mail = user.email;
         const userObj = await User.findOne({email:mail});
-        console.log(userObj);
         if(!userObj){
-            console.log("AAA");
-            throw new dataNotFoundException('Invalid User Email',404)
+            throw new DataNotFoundException('Invalid User Email',404)
         }
         if(user.password != userObj.password){
             throw new Error("Invalid Password");
@@ -30,9 +28,9 @@ class JwtService{
 
         const verified = jwt.verify(token, jwtSecretKey);
         if (verified) {
-            return { valid: true, user: verified };
+            // return { valid: true, user: verified };
         } else {
-            throw new Error('Invalid token');
+            // throw new Error('Invalid token');
         }
     }
 }

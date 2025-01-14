@@ -9,12 +9,18 @@ exports.protect = async (req, res, next) => {
   if (!token) {
     return res.status(401).json({ message: "You are not logged in! Please log in to get access" });
   }
-  const decoded = await jwt.verify(token, process.env.JWT_SECRET_KEY);
-  
-  const currentUser = await User.findOne({email : decoded.userId});
-  if (!currentUser) {
-    return res.status(401).json({ message: "The user belonging to this email does not exist" });
+  let decoded;
+  let currentUser;
+  try{
+    decoded = await jwt.verify(token, process.env.JWT_SECRET_KEY);
+    currentUser = await User.findOne({email : decoded.userId});
+    
+    if (!currentUser) {
+      return res.status(401).json({ message: "The user belonging to this email does not exist" });
+    }
+    req.user = currentUser;
+    next();
+  }catch(err){
+    res.status(403).send("Token Is Expired")
   }
-  req.user = currentUser;
-  next();
 };

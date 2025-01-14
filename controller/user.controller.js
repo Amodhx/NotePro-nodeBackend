@@ -1,7 +1,7 @@
 const userService = require('../service/userService.js');
 const jwtService = require('../service/jwtService.js');
-const dataNotFoundException = require('../exceptions/DataNotFoundException.js');
-const dataPersistException = require('../exceptions/DataPersistException.js');
+const DataNotFoundException = require('../exceptions/DataNotFoundException.js');
+const DataPersistException = require('../exceptions/DataPersistException.js');
 
 class UserController{
     
@@ -10,9 +10,9 @@ class UserController{
         try{
             resp.status(201).send(await userService.saveUser(user));
         }catch(err){
-            if(err instanceof dataNotFoundException){
+            if(err instanceof DataNotFoundException){
                 resp.status(400).send("User not found to save")
-            }else if(err instanceof dataPersistException){
+            }else if(err instanceof DataPersistException){
                 resp.status(400).send("cant save user")
             }else{
                 resp.status(500).send('Internal Server Error')
@@ -25,7 +25,11 @@ class UserController{
             const user = req.body;
             resp.status(201).send(await jwtService.signIn(user));
         }catch(err){
-            resp.status(500).send('Internal Server Error')
+            if(err instanceof DataNotFoundException){
+                resp.status(400).send("It seems user email is invalid")
+            }else{
+                resp.status(500).send("Internal Server Error" + err)
+            }
         }
         
     }
@@ -34,7 +38,7 @@ class UserController{
         try{
             resp.status(201).send(await userService.getAllUsers())
         }catch(err){
-            if(err instanceof dataNotFoundException){
+            if(err instanceof DataNotFoundException){
                 resp.status(400).send("User not found to get")
             }else{
                 resp.status(500).send("Internal Server Error")
@@ -47,10 +51,10 @@ class UserController{
             let user =await userService.getUserByEmail(email);
             resp.status(201).send(user);
         }catch(err){
-            if(err instanceof dataNotFoundException){
+            if(err instanceof DataNotFoundException){
                 resp.status(400).send("Invalid Email")
             }else{
-                resp.status(500).send("Internal Server Error")
+                resp.status(500).send("Internal Server Error" )
             }
         }
         
@@ -62,7 +66,7 @@ class UserController{
             await userService.deleteUser(email)
             resp.status(201).send("USER DELETED")
         }catch(err){
-            if(err instanceof dataNotFoundException){
+            if(err instanceof DataNotFoundException){
                 resp.status(400).send("Invalid Email")
             }else{
                 resp.status(500).send("Internal Server Error")

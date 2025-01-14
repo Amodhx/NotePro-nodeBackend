@@ -1,3 +1,5 @@
+const DataNotFoundException = require('../exceptions/DataNotFoundException.js');
+const DataPersistException = require('../exceptions/DataPersistException.js');
 const noteService = require('../service/noteService.js')
 
 class NoteController{
@@ -7,9 +9,9 @@ class NoteController{
             let savedUser = await noteService.saveNote(note)
             resp.status(201).send(savedUser)
         }catch(err){
-            if(err instanceof dataNotFoundException){
+            if(err instanceof DataNotFoundException){
                 resp.status(400).send("User not found to save")
-            }else if(err instanceof dataPersistException){
+            }else if(err instanceof DataPersistException){
                 resp.status(400).send("cant save user")
             }else{
                 resp.status(500).send('Internal Server Error')
@@ -23,7 +25,7 @@ class NoteController{
             await noteService.deleteNoteByNoteId(id)
             resp.status(201).send(`${id} was deleted`)
         }catch(err){
-            if(err instanceof dataNotFoundException){
+            if(err instanceof DataNotFoundException){
                 resp.status(400).send("Invalid Id")
             }else{
                 resp.status(500).send("Internal Server Error")
@@ -35,7 +37,7 @@ class NoteController{
         try{
             resp.status(201).send(await noteService.getAllNotes())
         }catch(err){
-            if(err instanceof dataNotFoundException){
+            if(err instanceof DataNotFoundException){
                 resp.status(400).send("Notes not found to get")
             }else{
                 resp.status(500).send("Internal Server Error")
@@ -51,7 +53,7 @@ class NoteController{
             })
             resp.status(201).send(filterdNotes)
         }catch(err){
-            if(err instanceof dataNotFoundException){
+            if(err instanceof DataNotFoundException){
                 resp.status(400).send("Notes not found to get")
             }else{
                 resp.status(500).send("Internal Server Error")
@@ -65,7 +67,7 @@ class NoteController{
             await noteService.deleteNoteByUserEmail(email);
             resp.status(201).send("DELETd")
         }catch(err){
-            if(err instanceof dataNotFoundException){
+            if(err instanceof DataNotFoundException){
                 resp.status(400).send("Invalid Email")
             }else{
                 resp.status(500).send("Internal Server Error")

@@ -1,5 +1,5 @@
-const dataNotFoundException = require('../exceptions/DataNotFoundException.js');
-const dataPersistException = require('../exceptions/DataPersistException.js');
+const DataNotFoundException = require('../exceptions/DataNotFoundException.js');
+const DataPersistException = require('../exceptions/DataPersistException.js');
 const User = require('../models/user.model.js');
 const genarateId = require('../util/GenarateId.js');
 
@@ -14,17 +14,17 @@ class UserService{
             if(userSve){
                 return userSve;
             }else{
-                throw new dataPersistException("Cant Save User",400);
+                throw new DataPersistException("Cant Save User",400);
             }
         }else{
-            throw new dataNotFoundException("Cant Find User",400);
+            throw new DataNotFoundException("Cant Find User",400);
         }
         
     }
     async getAllUsers(){ 
         const users = await User.find({});
         if(users.length === 0){
-            throw new dataNotFoundException('Users Not Found', 404);
+            throw new DataNotFoundException('Users Not Found', 404);
         }else{
             return users;
         }
@@ -33,7 +33,7 @@ class UserService{
     async getUserByEmail(email){
         const user = await User.findOne({ email: email });
             if(!user){
-                throw new dataNotFoundException("invalid email",400)
+                throw new DataNotFoundException("invalid email",400)
             }else{
                 return user;
             }
@@ -43,7 +43,7 @@ class UserService{
     async deleteUser(email){
         const deletedCount = await User.deleteOne({email : email})
         if(deletedCount === 0){
-            throw new dataNotFoundException('User not found with the given email', 404);
+            throw new DataNotFoundException('User not found with the given email', 404);
         }
     }
 }
