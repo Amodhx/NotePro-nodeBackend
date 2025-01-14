@@ -9,9 +9,10 @@ class NoteController{
     async deleteNoteByNoteId(req,resp){
         let id =req.query.id
         await noteService.deleteNoteByNoteId(id)
+        resp.status(201).send(`${id} was deleted`)
     }
     async getAllNotes(req,resp){
-        resp.status(201).send(await noteController.getAllNotes())
+        resp.status(201).send(await noteService.getAllNotes())
     }
     async getAllNotesByUserEmail(req,resp){
         let email =req.query.email
@@ -19,11 +20,12 @@ class NoteController{
         let filterdNotes = notes.filter(function (note){
             return note.userEmail == email;
         })
-        return filterdNotes;
+        resp.status(201).send(filterdNotes)
     }
     async deleteNoteByUserEmail(req,resp){
         let email =req.query.email
         await noteService.deleteNoteByUserEmail(email);
+        resp.status(201).send("DELETd")
     }
 }
 
