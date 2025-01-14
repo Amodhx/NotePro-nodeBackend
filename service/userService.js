@@ -1,3 +1,5 @@
+const dataNotFoundException = require('../exceptions/DataNotFoundException.js');
+const dataPersistException = require('../exceptions/DataPersistException.js');
 const User = require('../models/user.model.js');
 const genarateId = require('../util/GenarateId.js');
 
@@ -6,20 +8,49 @@ class UserService{
     
     async saveUser(user){
         let toSave = new User(user);
-        toSave.user_id = await genarateId.GenarateUserId();
-        let userSve =await toSave.save();
-        return userSve;
+        if(toSave){
+            toSave.user_id = await genarateId.GenarateUserId();
+            let userSve =await toSave.save();
+            if(userSve){
+                return userSve;
+            }else{
+                throw new dataPersistException("Cant Save User",400);
+            }
+        }else{
+            throw new dataNotFoundException("Cant Find User",400);
+        }
+        
     }
     async getAllUsers(){
-        const users = await User.find({});
-        return users;
+        try {
+            const users = await User.find({});
+            if (!users || users.length === 0) {
+                throw new dataNotFoundException('Cant Find Users', 400);
+            }
+            return users;
+        } catch (err) {
+            if (!(err instanceof dataNotFoundException)) {
+                throw new Error('Internal Server Error');
+            }
+            throw err;
+        }
+        
     }
     async getUserByEmail(email){
         const user = await User.findOne({ email: email });
-        return user;
+            if(!user){
+                throw new dataNotFoundException("invalid email",400)
+            }else{
+                return user;
+            }
+         
+            
     }
     async deleteUser(email){
-        await User.deleteOne({email : email})
+        const deletedCount = await User.deleteOne({email : email})
+        if(deletedCount === 0){
+            throw new dataNotFoundException('User not found with the given email', 404);
+        }
     }
 }
 
