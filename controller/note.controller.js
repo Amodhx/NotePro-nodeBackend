@@ -2,30 +2,76 @@ const noteService = require('../service/noteService.js')
 
 class NoteController{
     async saveNote(req,resp){
-        const note  = req.body;
-        let savedUser = await noteService.saveNote(note)
-        resp.status(201).send(savedUser)
+        try{
+            const note  = req.body;
+            let savedUser = await noteService.saveNote(note)
+            resp.status(201).send(savedUser)
+        }catch(err){
+            if(err instanceof dataNotFoundException){
+                resp.status(400).send("User not found to save")
+            }else if(err instanceof dataPersistException){
+                resp.status(400).send("cant save user")
+            }else{
+                resp.status(500).send('Internal Server Error')
+            }
+        }
+        
     }
     async deleteNoteByNoteId(req,resp){
-        let id =req.query.id
-        await noteService.deleteNoteByNoteId(id)
-        resp.status(201).send(`${id} was deleted`)
+        try{
+            let id =req.query.id
+            await noteService.deleteNoteByNoteId(id)
+            resp.status(201).send(`${id} was deleted`)
+        }catch(err){
+            if(err instanceof dataNotFoundException){
+                resp.status(400).send("Invalid Id")
+            }else{
+                resp.status(500).send("Internal Server Error")
+            }
+        }
+        
     }
     async getAllNotes(req,resp){
-        resp.status(201).send(await noteService.getAllNotes())
+        try{
+            resp.status(201).send(await noteService.getAllNotes())
+        }catch(err){
+            if(err instanceof dataNotFoundException){
+                resp.status(400).send("Notes not found to get")
+            }else{
+                resp.status(500).send("Internal Server Error")
+            }
+        }
     }
     async getAllNotesByUserEmail(req,resp){
-        let email =req.query.email
-        let notes = await noteService.getAllNotes();
-        let filterdNotes = notes.filter(function (note){
-            return note.userEmail == email;
-        })
-        resp.status(201).send(filterdNotes)
+        try{
+            let email =req.query.email
+            let notes = await noteService.getAllNotes();
+            let filterdNotes = notes.filter(function (note){
+                return note.userEmail == email;
+            })
+            resp.status(201).send(filterdNotes)
+        }catch(err){
+            if(err instanceof dataNotFoundException){
+                resp.status(400).send("Notes not found to get")
+            }else{
+                resp.status(500).send("Internal Server Error")
+            }
+        }
+        
     }
     async deleteNoteByUserEmail(req,resp){
-        let email =req.query.email
-        await noteService.deleteNoteByUserEmail(email);
-        resp.status(201).send("DELETd")
+        try{
+            let email =req.query.email
+            await noteService.deleteNoteByUserEmail(email);
+            resp.status(201).send("DELETd")
+        }catch(err){
+            if(err instanceof dataNotFoundException){
+                resp.status(400).send("Invalid Email")
+            }else{
+                resp.status(500).send("Internal Server Error")
+            }
+        }
+        
     }
 }
 

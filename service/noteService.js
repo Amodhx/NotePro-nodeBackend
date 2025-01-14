@@ -19,9 +19,7 @@ class NoteService{
     }
     async getAllNotes(){
         const notes = await Note.find({});
-        if (!notes) {
-            throw new dataNotFoundException('Cant Find Users', 400);
-        }else if(notes.length === 0){
+        if(notes.length === 0){
             throw new dataNotFoundException('Users Not Found', 404);
         }else{
             return notes;
