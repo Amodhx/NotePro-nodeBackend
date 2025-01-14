@@ -1,25 +1,28 @@
-const note = require('../models/note.model')
 const noteService = require('../service/noteService.js')
 
 class NoteController{
-    async saveNote(note){
+    async saveNote(req,resp){
+        const note  = req.body;
         let savedUser = await noteService.saveNote(note)
-        return savedUser
+        resp.status(201).send(savedUser)
     }
-    async deleteNoteByNoteId(id){
+    async deleteNoteByNoteId(req,resp){
+        let id =req.query.id
         await noteService.deleteNoteByNoteId(id)
     }
-    async getAllNotes(){
-        return await noteService.getAllNotes();
+    async getAllNotes(req,resp){
+        resp.status(201).send(await noteController.getAllNotes())
     }
-    async getAllNotesByUserEmail(email){
+    async getAllNotesByUserEmail(req,resp){
+        let email =req.query.email
         let notes = await noteService.getAllNotes();
         let filterdNotes = notes.filter(function (note){
             return note.userEmail == email;
         })
         return filterdNotes;
     }
-    async deleteNoteByUserEmail(email){
+    async deleteNoteByUserEmail(req,resp){
+        let email =req.query.email
         await noteService.deleteNoteByUserEmail(email);
     }
 }
