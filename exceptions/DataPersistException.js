@@ -4,3 +4,5 @@ class DataPersistException extends Error{
         super(message,status_code)
     }
 }
+const dataPersistException = new DataPersistException();
+module.exports = dataPersistException;
