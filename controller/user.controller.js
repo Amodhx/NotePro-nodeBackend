@@ -5,7 +5,12 @@ class UserController{
     
     async saveUser(req,resp){
         const user = req.body;
-        resp.status(201).send(await userService.saveUser(user));
+        try{
+            resp.status(201).send(await userService.saveUser(user));
+        }catch(err){
+            
+        }
+        
     }
     async signIn(req,resp){
         try{
